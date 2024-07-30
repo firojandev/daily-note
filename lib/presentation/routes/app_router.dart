@@ -29,6 +29,10 @@ class AppRouter extends $AppRouter{
       path: '/notes',
       page: NotesRoute.page,
     ),
+    AutoRoute(
+      path: '/add-update-note',
+      page: AddUpdateNoteRoute.page,
+    ),
   ];
 
 }

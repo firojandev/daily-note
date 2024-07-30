@@ -21,6 +21,8 @@ import 'package:daily_note/domain/usecase/show_all_notes_use_case.dart'
     as _i306;
 import 'package:daily_note/domain/usecase/update_note_use_case.dart' as _i301;
 import 'package:daily_note/domain/usecase/use_case.dart' as _i252;
+import 'package:daily_note/presentation/pages/addupdatenote/bloc/add_update_bloc.dart'
+    as _i215;
 import 'package:daily_note/presentation/pages/notes/bloc/note_bloc.dart'
     as _i928;
 import 'package:daily_note/presentation/routes/app_router.dart' as _i407;
@@ -54,6 +56,11 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i149.AddNoteUseCase(gh<_i685.NoteRepository>()));
     gh.factory<_i98.DeleteNoteUseCase>(
         () => _i98.DeleteNoteUseCase(gh<_i685.NoteRepository>()));
+    gh.factory<_i215.AddUpdateBloc>(() => _i215.AddUpdateBloc(
+          gh<_i215.AddUpdateState>(),
+          gh<_i252.AddNoteUseCase>(),
+          gh<_i252.UpdateNoteUseCase>(),
+        ));
     gh.factory<_i928.NoteBloc>(
         () => _i928.NoteBloc(gh<_i252.ShowAllNotesUseCase>()));
     return this;

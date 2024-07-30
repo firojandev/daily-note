@@ -1,12 +1,16 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:daily_note/common/constants.dart';
 import 'package:daily_note/common/extension/build_context.dart';
 import 'package:daily_note/common/strings_constants.dart';
 import 'package:daily_note/di/di.dart';
 import 'package:daily_note/presentation/pages/notes/bloc/note_bloc.dart';
 import 'package:daily_note/presentation/pages/notes/widget/note_card.dart';
+import 'package:daily_note/presentation/routes/app_router.dart';
 import 'package:daily_note/presentation/widgets/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -37,13 +41,20 @@ class NotesPage extends StatelessWidget {
         child: BlocBuilder<NoteBloc, NoteState>(
           builder: (_, state) {
             return state.maybeMap(
-                orElse: () => const ErrorMessage(message: 'Loading..'),
+              orElse: () => const ErrorMessage(message: 'Loading..'),
               error: (error) => ErrorMessage(message: error.message ?? ''),
               loaded: (data) => _BuildNotesList(notes: data.notes),
             );
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
+        tooltip: 'Add Note',
+        onPressed: (){
+          context.router.push(AddUpdateNoteRoute());
+        },
+      ).animate(delay: animationDuration).fadeIn().slideX(begin: 1),
     );
   }
 }
@@ -56,18 +67,18 @@ class _BuildNotesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MasonryGridView.count(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacings.xl,
-          vertical: AppSpacings.xl,
-        ),
-        crossAxisCount: _getCrossAxisCount(context),
-        itemCount: notes.length,
-        itemBuilder: (BuildContext context, int index){
-          final noteId = notes[index].id!;
-          return NoteCard(
-              note:notes[index],
-          );
-        },
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacings.xl,
+        vertical: AppSpacings.xl,
+      ),
+      crossAxisCount: _getCrossAxisCount(context),
+      itemCount: notes.length,
+      itemBuilder: (BuildContext context, int index) {
+        final noteId = notes[index].id!;
+        return NoteCard(
+          note: notes[index],
+        ).animate().fadeIn(delay: 100.ms * index).moveX(delay: 100.ms * index);
+      },
       mainAxisSpacing: AppSpacings.l,
       crossAxisSpacing: AppSpacings.l,
     );
@@ -82,5 +93,3 @@ class _BuildNotesList extends StatelessWidget {
     return 2;
   }
 }
-
-
