@@ -11,7 +11,7 @@ class AddUpdateFormState with _$AddUpdateFormState {
     @Default([]) List<ToDo> todos,
   }) = _AddUpdateFormState;
 
-  bool get showTitleHint => title.isNotEmptyString;
-  bool get showDescriptionHint => description.isNotEmptyString;
+  bool get showTitleHint => title.isEmptyString;
+  bool get showDescriptionHint => description.isEmptyString;
   bool get hasTodo => todos.isNotEmpty;
 }

@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -54,6 +55,7 @@ class NotesPage extends StatelessWidget {
         onPressed: (){
           context.router.push(AddUpdateNoteRoute());
         },
+        child: const Icon(FeatherIcons.plus),
       ).animate(delay: animationDuration).fadeIn().slideX(begin: 1),
     );
   }
