@@ -6,6 +6,7 @@ import 'package:daily_note/di/di.dart';
 import 'package:daily_note/presentation/app.dart';
 import 'package:daily_note/presentation/pages/addupdatenote/add_update_page.dart';
 import 'package:daily_note/presentation/pages/addupdatenote/bloc/form/add_update_form_bloc.dart';
+import 'package:daily_note/presentation/pages/notes/bloc/deletion/note_delete_bloc.dart';
 import 'package:daily_note/presentation/pages/notes/bloc/note_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,14 +30,17 @@ void main() async {
   );
   //runApp(const App());
   runApp(MultiBlocProvider(providers: [
-    BlocProvider(
+    BlocProvider<NoteBloc>(
         create: (_) => getIt<NoteBloc>()..add(const NoteEvent.getAllNotes())
     ),
-    BlocProvider(
+    BlocProvider<AddUpdateFormBloc>(
         create:(_) => getIt<AddUpdateFormBloc>()
     ),
-    BlocProvider(
+    BlocProvider<AddUpdateBloc>(
         create:(_) => getIt<AddUpdateBloc>()
+    ),
+    BlocProvider<NoteDeleteBloc>(
+        create:(_) => getIt<NoteDeleteBloc>()
     ),
   ], child: const App()));
 }

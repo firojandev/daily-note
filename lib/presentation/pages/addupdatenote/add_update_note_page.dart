@@ -71,7 +71,7 @@ class _AddUpdateNotePageState extends State<AddUpdateNotePage> {
                 .maybeMap(
               orElse: () => const SizedBox.shrink(),
               saving: (_) => Container(
-                color: Colors.black.withOpacity(0.9),
+                color: Colors.black.withOpacity(0.2),
               ),
             )
                 .animate()
