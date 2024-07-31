@@ -1,3 +1,4 @@
+import 'package:daily_note/presentation/routes/app_router.dart';
 import 'package:daily_note/presentation/theme/colors.dart';
 import 'package:daily_note/presentation/theme/typography.dart';
 import 'package:flutter/material.dart';
@@ -13,4 +14,8 @@ extension BuildContextEx on BuildContext {
       duration: const Duration(seconds: 2),
     ));
   }
+}
+
+extension AppRouterEx on AppRouter {
+  BuildContext get context => navigatorKey.currentContext!;
 }
