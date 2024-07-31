@@ -110,7 +110,7 @@ class _BuildNotesList extends StatelessWidget {
             noteDeleteBloc.state.maybeMap(
                 orElse: (){
                   //Navigate to details page
-                 // context.router.push();
+                  context.router.push(NoteDetailRoute(noteId: noteId));
                 },
               selected: (_){
                   noteDeleteBloc.add(NoteDeleteEvent.toggleSelect(noteId));

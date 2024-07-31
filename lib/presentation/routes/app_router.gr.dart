@@ -8,23 +8,26 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i4;
-import 'package:daily_note/domain/model/note.dart' as _i6;
+import 'package:auto_route/auto_route.dart' as _i5;
+import 'package:daily_note/domain/model/note.dart' as _i7;
 import 'package:daily_note/presentation/pages/addupdatenote/add_update_note_page.dart'
     as _i1;
-import 'package:daily_note/presentation/pages/notes/notes_page.dart' as _i2;
-import 'package:daily_note/presentation/pages/splash/splash_page.dart' as _i3;
-import 'package:flutter/material.dart' as _i5;
+import 'package:daily_note/presentation/pages/note_detail/note_detail_page.dart'
+    as _i2;
+import 'package:daily_note/presentation/pages/notes/notes_page.dart' as _i3;
+import 'package:daily_note/presentation/pages/splash/splash_page.dart' as _i4;
+import 'package:flutter/cupertino.dart' as _i8;
+import 'package:flutter/material.dart' as _i6;
 
-abstract class $AppRouter extends _i4.RootStackRouter {
+abstract class $AppRouter extends _i5.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i4.PageFactory> pagesMap = {
+  final Map<String, _i5.PageFactory> pagesMap = {
     AddUpdateNoteRoute.name: (routeData) {
       final args = routeData.argsAs<AddUpdateNoteRouteArgs>(
           orElse: () => const AddUpdateNoteRouteArgs());
-      return _i4.AutoRoutePage<dynamic>(
+      return _i5.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i1.AddUpdateNotePage(
           key: args.key,
@@ -32,16 +35,26 @@ abstract class $AppRouter extends _i4.RootStackRouter {
         ),
       );
     },
-    NotesRoute.name: (routeData) {
-      return _i4.AutoRoutePage<dynamic>(
+    NoteDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<NoteDetailRouteArgs>();
+      return _i5.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i2.NotesPage(),
+        child: _i2.NoteDetailPage(
+          key: args.key,
+          noteId: args.noteId,
+        ),
+      );
+    },
+    NotesRoute.name: (routeData) {
+      return _i5.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i3.NotesPage(),
       );
     },
     SplashRoute.name: (routeData) {
-      return _i4.AutoRoutePage<dynamic>(
+      return _i5.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i3.SplashPage(),
+        child: const _i4.SplashPage(),
       );
     },
   };
@@ -49,11 +62,11 @@ abstract class $AppRouter extends _i4.RootStackRouter {
 
 /// generated route for
 /// [_i1.AddUpdateNotePage]
-class AddUpdateNoteRoute extends _i4.PageRouteInfo<AddUpdateNoteRouteArgs> {
+class AddUpdateNoteRoute extends _i5.PageRouteInfo<AddUpdateNoteRouteArgs> {
   AddUpdateNoteRoute({
-    _i5.Key? key,
-    _i6.Note? note,
-    List<_i4.PageRouteInfo>? children,
+    _i6.Key? key,
+    _i7.Note? note,
+    List<_i5.PageRouteInfo>? children,
   }) : super(
           AddUpdateNoteRoute.name,
           args: AddUpdateNoteRouteArgs(
@@ -65,8 +78,8 @@ class AddUpdateNoteRoute extends _i4.PageRouteInfo<AddUpdateNoteRouteArgs> {
 
   static const String name = 'AddUpdateNoteRoute';
 
-  static const _i4.PageInfo<AddUpdateNoteRouteArgs> page =
-      _i4.PageInfo<AddUpdateNoteRouteArgs>(name);
+  static const _i5.PageInfo<AddUpdateNoteRouteArgs> page =
+      _i5.PageInfo<AddUpdateNoteRouteArgs>(name);
 }
 
 class AddUpdateNoteRouteArgs {
@@ -75,9 +88,9 @@ class AddUpdateNoteRouteArgs {
     this.note,
   });
 
-  final _i5.Key? key;
+  final _i6.Key? key;
 
-  final _i6.Note? note;
+  final _i7.Note? note;
 
   @override
   String toString() {
@@ -86,9 +99,47 @@ class AddUpdateNoteRouteArgs {
 }
 
 /// generated route for
-/// [_i2.NotesPage]
-class NotesRoute extends _i4.PageRouteInfo<void> {
-  const NotesRoute({List<_i4.PageRouteInfo>? children})
+/// [_i2.NoteDetailPage]
+class NoteDetailRoute extends _i5.PageRouteInfo<NoteDetailRouteArgs> {
+  NoteDetailRoute({
+    _i8.Key? key,
+    required String noteId,
+    List<_i5.PageRouteInfo>? children,
+  }) : super(
+          NoteDetailRoute.name,
+          args: NoteDetailRouteArgs(
+            key: key,
+            noteId: noteId,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'NoteDetailRoute';
+
+  static const _i5.PageInfo<NoteDetailRouteArgs> page =
+      _i5.PageInfo<NoteDetailRouteArgs>(name);
+}
+
+class NoteDetailRouteArgs {
+  const NoteDetailRouteArgs({
+    this.key,
+    required this.noteId,
+  });
+
+  final _i8.Key? key;
+
+  final String noteId;
+
+  @override
+  String toString() {
+    return 'NoteDetailRouteArgs{key: $key, noteId: $noteId}';
+  }
+}
+
+/// generated route for
+/// [_i3.NotesPage]
+class NotesRoute extends _i5.PageRouteInfo<void> {
+  const NotesRoute({List<_i5.PageRouteInfo>? children})
       : super(
           NotesRoute.name,
           initialChildren: children,
@@ -96,13 +147,13 @@ class NotesRoute extends _i4.PageRouteInfo<void> {
 
   static const String name = 'NotesRoute';
 
-  static const _i4.PageInfo<void> page = _i4.PageInfo<void>(name);
+  static const _i5.PageInfo<void> page = _i5.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i3.SplashPage]
-class SplashRoute extends _i4.PageRouteInfo<void> {
-  const SplashRoute({List<_i4.PageRouteInfo>? children})
+/// [_i4.SplashPage]
+class SplashRoute extends _i5.PageRouteInfo<void> {
+  const SplashRoute({List<_i5.PageRouteInfo>? children})
       : super(
           SplashRoute.name,
           initialChildren: children,
@@ -110,5 +161,5 @@ class SplashRoute extends _i4.PageRouteInfo<void> {
 
   static const String name = 'SplashRoute';
 
-  static const _i4.PageInfo<void> page = _i4.PageInfo<void>(name);
+  static const _i5.PageInfo<void> page = _i5.PageInfo<void>(name);
 }
