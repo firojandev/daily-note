@@ -5,7 +5,9 @@ import 'package:daily_note/data/dto/todo_dto.dart';
 import 'package:daily_note/di/di.dart';
 import 'package:daily_note/presentation/app.dart';
 import 'package:daily_note/presentation/pages/addupdatenote/add_update_page.dart';
-import 'package:daily_note/presentation/pages/addupdatenote/bloc/form/add_update_form_bloc.dart';
+import 'package:daily_note/presentation/pages/note_detail/bloc/action/note_action_bloc.dart';
+import 'package:daily_note/presentation/pages/note_detail/bloc/note_detail_bloc.dart';
+import 'package:daily_note/presentation/pages/notes/bloc/deletion/note_delete_bloc.dart';
 import 'package:daily_note/presentation/pages/notes/bloc/note_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,14 +31,12 @@ void main() async {
   );
   //runApp(const App());
   runApp(MultiBlocProvider(providers: [
-    BlocProvider(
-        create: (_) => getIt<NoteBloc>()..add(const NoteEvent.getAllNotes())
-    ),
-    BlocProvider(
-        create:(_) => getIt<AddUpdateFormBloc>()
-    ),
-    BlocProvider(
-        create:(_) => getIt<AddUpdateBloc>()
-    ),
+    BlocProvider<NoteBloc>(
+        create: (_) => getIt<NoteBloc>()..add(const NoteEvent.getAllNotes())),
+    BlocProvider<AddUpdateFormBloc>(create: (_) => getIt<AddUpdateFormBloc>()),
+    BlocProvider<AddUpdateBloc>(create: (_) => getIt<AddUpdateBloc>()),
+    BlocProvider<NoteDeleteBloc>(create: (_) => getIt<NoteDeleteBloc>()),
+    BlocProvider<NoteDetailBloc>(create: (_) => getIt<NoteDetailBloc>()),
+    BlocProvider<NoteActionBloc>(create: (_) => getIt<NoteActionBloc>()),
   ], child: const App()));
 }

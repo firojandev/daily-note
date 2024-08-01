@@ -1,5 +1,15 @@
 # daily_note
 
+
+
+Build as release for 
+
+android
+
+
+mac
+flutter build macos --release
+
 Command to generate
 flutter pub run build_runner build
 

@@ -1,9 +1,8 @@
-import 'package:auto_route/annotations.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:daily_note/common/constants.dart';
 import 'package:daily_note/common/extension/build_context.dart';
 import 'package:daily_note/common/strings_constants.dart';
 import 'package:daily_note/di/di.dart';
+import 'package:daily_note/presentation/pages/notes/bloc/deletion/note_delete_bloc.dart';
 import 'package:daily_note/presentation/pages/notes/bloc/note_bloc.dart';
 import 'package:daily_note/presentation/pages/notes/widget/note_card.dart';
 import 'package:daily_note/presentation/routes/app_router.dart';
@@ -13,12 +12,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../domain/database/database.dart';
 import '../../../domain/model/note.dart';
+import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
+import '../../theme/typography.dart';
 
 @RoutePage()
 class NotesPage extends StatelessWidget {
@@ -31,7 +32,31 @@ class NotesPage extends StatelessWidget {
         systemUiOverlayStyle: SystemUiOverlayStyle.light,
         autoImplementLeading: false,
         title: StringsConstants.homeAppBarTitle,
-        actions: [],
+        actions: context.watch<NoteDeleteBloc>().state.mapOrNull(
+          selected: (selectedNotes) => [
+            AppButton(
+              child: Row(
+                children: [
+                  Text(
+                    'Delete - ${selectedNotes.selectedIds.length}',
+                    style: AppTypography.headline6.copyWith(color: AppColors.white),
+                  ),
+                  const SizedBox(width: AppSpacings.xl),
+                  const Icon(FeatherIcons.trash2),
+                ],
+              ),
+              onPressed: () {
+                context.read<NoteDeleteBloc>().add(const NoteDeleteEvent.delete());
+              },
+            ),
+            AppButton(
+              child: const Icon(FeatherIcons.x),
+              onPressed: () {
+                context.read<NoteDeleteBloc>().add(const NoteDeleteEvent.clearAll());
+              },
+            ),
+          ].animate().fadeIn(),
+        ),
       ),
       body: ValueListenableBuilder(
         valueListenable: getIt<Database>().box.listenable(),
@@ -68,6 +93,7 @@ class _BuildNotesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final noteDeleteBloc = context.read<NoteDeleteBloc>();
     return MasonryGridView.count(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacings.xl,
@@ -79,6 +105,21 @@ class _BuildNotesList extends StatelessWidget {
         final noteId = notes[index].id!;
         return NoteCard(
           note: notes[index],
+          selected: noteDeleteBloc.isSelected(noteId),
+          onTap: (){
+            noteDeleteBloc.state.maybeMap(
+                orElse: (){
+                  //Navigate to details page
+                  context.router.push(NoteDetailRoute(noteId: noteId));
+                },
+              selected: (_){
+                  noteDeleteBloc.add(NoteDeleteEvent.toggleSelect(noteId));
+              },
+            );
+          },
+          onSelect: (){
+            noteDeleteBloc.add(NoteDeleteEvent.toggleSelect(noteId));
+          },
         ).animate().fadeIn(delay: 100.ms * index).moveX(delay: 100.ms * index);
       },
       mainAxisSpacing: AppSpacings.l,
